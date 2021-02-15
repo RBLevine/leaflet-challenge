@@ -18,10 +18,10 @@ function createFeatures(earthquakeData) {
             return new L.circle(latlng,
                 {radius: getRadius(feature.properties.mag),
                 fillColor: getColor(feature.properties.mag),
-                fillOpacity: .5,
-                color: "black",
+                fillOpacity: .7,
+                color: "#000000",
                 stroke: true,
-                weight: .8
+                weight: .5
             })
         }
     });
@@ -72,8 +72,8 @@ function createMap(earthquakes) {
 
     // Create the map object with options
     var myMap = L.map("mapid", {
-        center: [40.73, -74.0059],
-        zoom: 12,
+        center: [30, -30],
+        zoom: 2,
         layers: [lightmap, earthquakes]
     });
 
@@ -85,12 +85,12 @@ function createMap(earthquakes) {
     var legend = L.control({position: 'bottomright'});
 
     legend.onAdd = function(myMap){
-        var div = L.DomUtil.create('div', 'info legen'),
+        var div = L.DomUtil.create('div', 'info legend'),
         grades = [0,1,2,3,4,5],
         labels=[];
 
         for(var i = 0; i<grades.length; i++){
-            div.innerHTML +='<i style="background:'+getColor(grades[i]+1)+'"></i>'+grades[i]+(grades[i+1] ? '&ndash;'+grades[i+1]+'<br>':'+');
+            div.innerHTML +='<i style="background:'+getColor(i)+'"></i>'+grades[i]+(grades[i+1] ? '&ndash;'+grades[i+1]+'<br>':'+');
         }
         return div;
     };
@@ -99,27 +99,27 @@ function createMap(earthquakes) {
 }
 
 function getRadius (magnitude){
-    return magnitude*20000;
+    return magnitude*30000;
 };
 
 function getColor(magnitude){
-    if (magnitude>5){
-        return '3C1518'
+    if (magnitude>=5){
+        return '#660000'
     } 
-    else if (magnitude>4){
-        return '69140E'
+    else if (magnitude>=4){
+        return '#6F3E0C'
     }
-    else if (magnitude>3){
-        return 'A44200'
+    else if (magnitude>=3){
+        return '#6C6A17'
     }
-    else if (magnitude>2){
-        return 'D58936'
+    else if (magnitude>=2){
+        return '#609251'
     }
-    else if (magnitude>1){
-        return 'FFFB46'
+    else if (magnitude>=1){
+        return '#50B796'
     }
     else{
-        return 'FFFFCC'
+        return '#5AD8DE'
     }
 };
 
