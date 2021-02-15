@@ -16,7 +16,7 @@ function createFeatures(earthquakeData) {
 
         pointToLayer: function(feature, latlng){
             return new L.circle(latlng,
-                {radius: getRadium(feature.properties.mag),
+                {radius: getRadius(feature.properties.mag),
                 fillColor: getColor(feature.properties.mag),
                 fillOpacity: .5,
                 color: "black",
@@ -71,7 +71,7 @@ function createMap(earthquakes) {
     };
 
     // Create the map object with options
-    var map = L.map("map", {
+    var myMap = L.map("mapid", {
         center: [40.73, -74.0059],
         zoom: 12,
         layers: [lightmap, earthquakes]
@@ -80,17 +80,17 @@ function createMap(earthquakes) {
     // Create a layer control, pass in the baseMaps and overlayMaps. Add the layer control to the map
     L.control.layers(baseMaps, overlayMaps, {
         collapsed: false
-    }).addTo(map);
+    }).addTo(myMap);
 
     var legend = L.control({position: 'bottomright'});
 
     legend.onAdd = function(myMap){
         var div = L.DomUtil.create('div', 'info legen'),
-        var magnitudes = [0,1,2,3,4,5],
-        var labels=[];
+        grades = [0,1,2,3,4,5],
+        labels=[];
 
-        for(var i = 0; i<magnitudes.length; o++){
-            div.innerHTML +='<i style="background:'+getColor(magnitudes[i]+1)+'"></i>'+magnitudes[i]+(magnitudes[i+1] ? '&ndash;'+magnitudes[i+1]+'<br>':'+');
+        for(var i = 0; i<grades.length; i++){
+            div.innerHTML +='<i style="background:'+getColor(grades[i]+1)+'"></i>'+grades[i]+(grades[i+1] ? '&ndash;'+grades[i+1]+'<br>':'+');
         }
         return div;
     };
@@ -98,6 +98,28 @@ function createMap(earthquakes) {
 
 }
 
+function getRadius (magnitude){
+    return magnitude*20000;
+};
+
 function getColor(magnitude){
-    
-}
+    if (magnitude>5){
+        return '3C1518'
+    } 
+    else if (magnitude>4){
+        return '69140E'
+    }
+    else if (magnitude>3){
+        return 'A44200'
+    }
+    else if (magnitude>2){
+        return 'D58936'
+    }
+    else if (magnitude>1){
+        return 'FFFB46'
+    }
+    else{
+        return 'FFFFCC'
+    }
+};
+
